@@ -1,115 +1,195 @@
 "use client";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 60);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const services = [
+    {
+      title: "Website Development",
+      href: "/services/web-development",
+      subtitle: "Cinematic, conversion-driven websites built for performance and emotion.",
+      preview: "/images/web-preview.jpg",
+    },
+    {
+      title: "Visual Identity",
+      href: "/services/branding",
+      subtitle: "Timeless logos, brand systems, and visual identities that stand apart.",
+      preview: "/images/identity-preview.jpg",
+    },
+    {
+      title: "Content Creation",
+      href: "/services/content",
+      subtitle: "High-impact visuals and storytelling crafted for social engagement.",
+      preview: "/images/content-preview.jpg",
+    },
+  ];
 
-  const navLinks = [
+  // ✨ Other main pages you had before
+  const mainLinks = [
     { title: "Home", href: "/" },
     { title: "About", href: "/about" },
-    { title: "Services", href: "/services" },
     { title: "Projects", href: "/projects" },
     { title: "Contact", href: "/contact" },
   ];
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#05000f]/70 backdrop-blur-md border-b border-white/10"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-20">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-[#080012]/80 backdrop-blur-xl border-b border-white/10 shadow-[0_8px_40px_-10px_rgba(0,0,0,0.5)]">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-10 py-6 text-white">
         {/* Logo */}
-        <Link href="/" className="font-bold text-2xl text-white tracking-wide">
-          <motion.span
-            animate={{ color: ["#ffffff", "#f47c61", "#ffffff"] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="inline-block"
-          >
-            WebCrafts
-          </motion.span>{" "}
-          <span className="text-gray-400 font-light">Studio</span>
+        <Link
+          href="/"
+          className="text-3xl font-bold tracking-wide text-[#f5f2ee] hover:text-[#f47c61] transition-colors"
+        >
+          WebCrafts <span className="text-[#f47c61]">Studio</span>
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10">
-          {navLinks.map((link) => (
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-12 text-lg font-medium">
+          {/* Main Pages */}
+          {mainLinks.map((link) => (
             <Link
               key={link.title}
               href={link.href}
-              className="relative text-gray-300 hover:text-[#f47c61] transition group"
+              className="hover:text-[#f47c61] transition-colors"
             >
               {link.title}
-              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#f47c61] transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
-          <Link href="/contact">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="bg-[#f47c61] hover:bg-[#ff9e80] text-black font-medium px-6 py-2 rounded-full transition-all"
-            >
-              Get a Quote
-            </motion.button>
-          </Link>
+
+          {/* Services Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setServicesOpen(true)}
+            onMouseLeave={() => {
+              setServicesOpen(false);
+              setHovered(null);
+            }}
+          >
+            <button className="hover:text-[#f47c61] transition-colors">
+              Services ▾
+            </button>
+
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="absolute left-0 top-full mt-4 w-[500px] bg-[#0a0014]/95 rounded-3xl border border-white/10 shadow-[0_0_60px_-10px_rgba(244,124,97,0.25)] backdrop-blur-lg overflow-hidden"
+                >
+                  <div className="grid grid-cols-2 divide-x divide-white/10">
+                    {/* Left List */}
+                    <ul className="flex flex-col py-4 text-gray-300">
+                      {services.map((s, i) => (
+                        <li key={i}>
+                          <Link
+                            href={s.href}
+                            onMouseEnter={() => setHovered(i)}
+                            className={`block px-6 py-3 transition-all ${
+                              hovered === i
+                                ? "text-[#f47c61] bg-[#f47c61]/10"
+                                : "hover:text-[#f47c61] hover:bg-[#f47c61]/5"
+                            }`}
+                          >
+                            {s.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Right Preview */}
+                    <div className="relative p-4">
+                      <AnimatePresence mode="wait">
+                        {hovered !== null && (
+                          <motion.div
+                            key={services[hovered].title}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            className="space-y-3"
+                          >
+                            <div className="overflow-hidden rounded-xl border border-white/10">
+                              <motion.img
+                                src={services[hovered].preview}
+                                alt={services[hovered].title}
+                                className="w-full h-32 object-cover"
+                                initial={{ scale: 1.05 }}
+                                animate={{ scale: 1 }}
+                                transition={{ duration: 0.6 }}
+                              />
+                            </div>
+                            <p className="text-xs text-gray-400 leading-snug">
+                              {services[hovered].subtitle}
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Toggle */}
         <button
+          className="md:hidden text-3xl text-[#f5f2ee]"
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-white text-2xl focus:outline-none"
         >
-          {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+          ☰
         </button>
       </div>
 
-      {/* Mobile Menu Drawer */}
-      {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden absolute top-20 left-0 w-full bg-[#05000f]/95 backdrop-blur-lg border-t border-white/10"
-        >
-          <div className="flex flex-col items-center py-8 space-y-6 text-lg">
-            {navLinks.map((link) => (
-              <Link
-                key={link.title}
-                href={link.href}
-                className="text-gray-300 hover:text-[#f47c61] transition"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.title}
-              </Link>
-            ))}
-            <Link href="/contact">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="bg-[#f47c61] hover:bg-[#ff9e80] text-black font-medium px-8 py-3 rounded-full transition-all"
-              >
-                Get a Quote
-              </motion.button>
-            </Link>
-          </div>
-        </motion.div>
-      )}
-    </motion.nav>
+      {/* Mobile Dropdown */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="md:hidden bg-[#0a0014]/95 border-t border-white/10 overflow-hidden"
+          >
+            <div className="flex flex-col px-8 py-6 space-y-5 text-gray-300 text-lg font-medium">
+              {mainLinks.map((link) => (
+                <Link
+                  key={link.title}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {link.title}
+                </Link>
+              ))}
+
+              {/* Services Submenu */}
+              <details className="group">
+                <summary className="cursor-pointer flex justify-between items-center">
+                  <span>Services</span>
+                  <span className="transform group-open:rotate-180 transition-transform">
+                    ⌄
+                  </span>
+                </summary>
+                <div className="flex flex-col mt-2 pl-4 border-l border-white/10 space-y-2">
+                  {services.map((s, i) => (
+                    <Link key={i} href={s.href} onClick={() => setMobileOpen(false)}>
+                      {s.title}
+                    </Link>
+                  ))}
+                </div>
+              </details>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
 }

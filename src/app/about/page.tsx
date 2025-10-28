@@ -1,166 +1,214 @@
 "use client";
-import { motion, useScroll } from "framer-motion";
-import Image from "next/image";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 
-export default function AboutPage() {
-  // Scroll progress from Framer Motion
-  const { scrollYProgress } = useScroll();
+// ---------- Shared Components ----------
+const SectionHeading = ({ kicker, title, subtitle }: { kicker?: string; title: string; subtitle?: string }) => (
+  <div className="space-y-4">
+    {kicker && (
+      <motion.p
+        className="uppercase tracking-[0.25em] text-xs md:text-sm text-white/60"
+        initial={{ opacity: 0, y: 6 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        {kicker}
+      </motion.p>
+    )}
+
+    <motion.h2
+      className="text-4xl md:text-6xl font-semibold leading-[1.05] text-[#f5f2ee] drop-shadow-[0_6px_24px_rgba(244,124,97,0.15)]"
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+    >
+      {title}
+    </motion.h2>
+
+    {subtitle && (
+      <motion.p
+        className="max-w-xl text-base md:text-lg text-white/70"
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, delay: 0.1 }}
+      >
+        {subtitle}
+      </motion.p>
+    )}
+  </div>
+);
+
+const CTA = ({ href, children }: { href: string; children: React.ReactNode }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay: 0.15 }}
+    className="pt-6"
+  >
+    <Link
+      href={href}
+      className="inline-flex items-center gap-2 rounded-2xl px-5 py-3 text-[#0a0014] bg-[#f47c61] font-semibold shadow-[0_10px_40px_-10px_rgba(244,124,97,0.7)] hover:shadow-[0_16px_56px_-10px_rgba(244,124,97,0.85)] transition-shadow"
+    >
+      {children}
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </Link>
+  </motion.div>
+);
+
+// ---------- Scene Component ----------
+function Scene({
+  index,
+  kicker,
+  title,
+  subtitle,
+  imageSrc,
+  tint = "from-black/80 via-black/40 to-black/0",
+  align = "left",
+}: {
+  index: number;
+  kicker?: string;
+  title: string;
+  subtitle?: string;
+  imageSrc: string;
+  tint?: string;
+  align?: "left" | "right";
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
+  // Parallax transforms
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
+  const fgY = useTransform(scrollYProgress, [0, 1], [30, -10]);
+  const decoY = useTransform(scrollYProgress, [0, 1], [60, -20]);
+  const vignetteOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 0.2]);
+
+  const alignClass = align === "left" ? "items-start text-left" : "items-end text-right";
+  const contentAlign = align === "left" ? "md:items-start" : "md:items-end";
 
   return (
-    <main className="bg-[#05000f] text-white overflow-hidden relative">
-      {/* === SCROLL PROGRESS BAR === */}
-      <motion.div
-        style={{ scaleX: scrollYProgress }}
-        className="fixed top-0 left-0 right-0 h-[3px] origin-left bg-[#f47c61] z-[9999]"
-      />
-
-      {/* === HERO SECTION === */}
-      <section className="relative min-h-[80vh] flex flex-col items-center justify-center text-center px-6 md:px-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0014] via-[#1a0033]/80 to-[#05000f]" />
+    <section ref={ref} className="relative h-screen snap-start overflow-hidden bg-black" aria-label={title}>
+      {/* Background Image */}
+      <motion.div style={{ scale: bgScale }} className="absolute inset-0 -z-10">
+        <motion.img
+          src={imageSrc}
+          alt={title}
+          className="absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700"
+          loading="lazy"
+        />
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 max-w-3xl space-y-6"
-        >
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            We Turn{" "}
-            <span className="bg-gradient-to-r from-[#f47c61] to-[#ffb49a] bg-clip-text text-transparent">
-              Ideas into Digital Stories
-            </span>
-          </h1>
-          <p className="text-gray-400 text-lg md:text-xl">
-            WebCrafts Studio is a creative web agency crafting meaningful digital
-            experiences through design, storytelling, and technology.
-          </p>
-        </motion.div>
-      </section>
+          style={{ opacity: vignetteOpacity }}
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0)_0%,rgba(0,0,0,0.45)_70%,rgba(0,0,0,0.7)_100%)]"
+        />
+      </motion.div>
 
-      {/* === STORY SECTION === */}
-      <section className="relative flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-24 md:py-40 gap-16">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(244,124,97,0.08)_0%,transparent_60%)]" />
+      {/* Gradient Tint */}
+      <div className={`absolute inset-0 bg-gradient-to-t ${tint} mix-blend-multiply`} />
 
-        {/* Left Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="relative z-10 flex-1 space-y-6 text-center md:text-left"
-        >
-          <h2 className="text-4xl md:text-6xl font-semibold leading-tight">
-            Our <span className="text-[#f47c61]">Vision</span> is Simple:
-          </h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
-            We believe every brand has a story worth telling. Our mission is to
-            help ambitious brands communicate their vision through design and
-            technology that feels human — cinematic, emotional, and timeless.
-          </p>
-          <p className="text-gray-400 text-lg leading-relaxed">
-            From concept to code, every project we build is crafted with precision,
-            emotion, and purpose. We go beyond visuals — we engineer experiences.
-          </p>
-        </motion.div>
+      {/* Glow Accent */}
+      <motion.div style={{ y: decoY }} className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl opacity-20">
+        <div className="h-full w-full bg-[#f47c61]" />
+      </motion.div>
 
-        {/* Right Visual */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2 }}
-          viewport={{ once: true }}
-          className="hidden md:flex relative z-10 flex-1 justify-center"
-        >
-          <div className="relative w-[80%] aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
-            <video
-              src="/videos/about.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#05000f]/80 via-transparent to-transparent" />
+      {/* Text & CTA */}
+      <div className={`relative z-10 mx-auto flex h-full max-w-7xl px-6 md:px-10 ${alignClass}`}>
+        <motion.div style={{ y: fgY }} className={`mt-auto mb-28 flex w-full flex-col ${contentAlign}`}>
+          <div className={`w-full md:w-[60%] ${align === "left" ? "md:pr-8" : "md:ml-auto md:pl-8"}`}>
+            <SectionHeading kicker={kicker} title={title} subtitle={subtitle} />
           </div>
         </motion.div>
-      </section>
+      </div>
 
-      {/* === VALUES SECTION === */}
-      <section className="relative py-32 px-6 md:px-20 bg-gradient-to-b from-[#05000f] via-[#0a0014] to-[#05000f]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-semibold mb-4">
-            What <span className="text-[#f47c61]">Drives</span> Us
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            A blend of creativity, clarity, and craftsmanship. We design with
-            empathy, build with precision, and grow with intention.
-          </p>
-        </motion.div>
+      <div className="absolute bottom-6 right-6 text-white/50 text-sm select-none">{String(index).padStart(2, "0")}</div>
+    </section>
+  );
+}
 
-        {/* Core Values */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-6xl mx-auto text-center">
-          {[
-            {
-              title: "🎨 Design with Emotion",
-              desc: "Every interface tells a story — we craft digital experiences that feel alive and intentional.",
-            },
-            {
-              title: "⚙️ Build with Precision",
-              desc: "Our development process ensures performance, scalability, and timeless functionality.",
-            },
-            {
-              title: "🚀 Grow with Strategy",
-              desc: "We don’t stop at launch — we help your brand evolve with data, content, and creativity.",
-            },
-          ].map((v, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.2, duration: 1 }}
-              viewport={{ once: true }}
-              className="space-y-4 p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all"
-            >
-              <h3 className="text-2xl font-semibold text-[#f47c61]">{v.title}</h3>
-              <p className="text-gray-400 text-lg leading-relaxed">{v.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+// ---------- Main Page ----------
+export default function AboutPage() {
+  return (
+    <main className="min-h-screen w-full text-white bg-[#0a0014]">
+      <div className="h-screen snap-y snap-mandatory overflow-y-scroll overflow-x-clip scroll-smooth">
+        {/* Hero */}
+        <section className="relative h-screen snap-start overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0a0014] via-[#130027] to-[#1a0033]" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_45%)] opacity-20" />
 
-      {/* === CTA / OUTRO SECTION === */}
-      <section className="relative flex flex-col items-center justify-center text-center py-32 px-6 bg-[#05000f]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 max-w-3xl space-y-6"
-        >
-          <h2 className="text-4xl md:text-6xl font-semibold">
-            Ready to Build Something{" "}
-            <span className="text-[#f47c61]">Extraordinary?</span>
-          </h2>
-          <p className="text-gray-400 text-lg md:text-xl">
-            Let’s collaborate to create your brand’s next big chapter — from
-            identity and design to full digital presence.
-          </p>
-          <Link href="/contact">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="mt-6 inline-flex items-center justify-center px-10 py-4 font-medium text-black rounded-full bg-[#f47c61] hover:bg-[#ff9e80] transition-all text-lg"
-            >
-              Start Your Journey ↗
-            </motion.button>
-          </Link>
-        </motion.div>
+          <div className="relative z-10 mx-auto flex h-full max-w-7xl items-center justify-between px-6 md:px-10">
+            <div className="max-w-2xl">
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="text-5xl md:text-7xl font-semibold leading-[1.03] text-[#f5f2ee]"
+              >
+                Behind the Craft
+              </motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="mt-5 max-w-xl text-white/70 text-lg"
+              >
+                Step behind the curtain and discover the philosophy, design process, and creative vision that power every project at WebCrafts Studio.
+              </motion.p>
+            </div>
+          </div>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-sm">Scroll to explore</div>
+        </section>
 
-        <div className="absolute w-[400px] h-[400px] bg-[#f47c61]/20 blur-[200px] rounded-full -z-10" />
-      </section>
+        {/* Scenes */}
+        <Scene
+          index={1}
+          kicker="Our Philosophy"
+          title="Design with Intention"
+          subtitle="We don’t chase trends. We craft meaningful, human-centered digital experiences that tell stories and evoke emotion."
+          imageSrc="/images/philosophy.jpg"
+          tint="from-[#08000f]/80 via-[#0a0014]/40 to-transparent"
+          align="left"
+        />
+
+        <Scene
+          index={2}
+          kicker="Our Process"
+          title="Where Creativity Meets Precision"
+          subtitle="Our workflow is a balance of artistry and technical mastery — from concept to launch, every detail has purpose."
+          imageSrc="/images/process.jpg"
+          tint="from-[#1a0033]/80 via-[#26004f]/40 to-transparent"
+          align="right"
+        />
+
+        <Scene
+          index={3}
+          kicker="Our Ethos"
+          title="Built for Connection"
+          subtitle="We collaborate with brands who value authenticity, imagination, and timeless impact. Together, we create stories worth remembering."
+          imageSrc="/images/ethos.jpg"
+          tint="from-black/80 via-black/40 to-transparent"
+          align="left"
+        />
+
+        {/* Outro */}
+        <section className="relative h-screen snap-start overflow-hidden">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black via-[#0a0014] to-[#1a0033]" />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(244,124,97,0.18)_0%,rgba(244,124,97,0)_60%)]" />
+          <div className="mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6 text-center">
+            <SectionHeading
+              kicker="Next Chapter"
+              title="Your Brand, Our Story"
+              subtitle="We bring your vision to life with design that feels, performs, and endures. Let’s create something unforgettable."
+            />
+            <CTA href="/contact">Start Your Journey</CTA>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
