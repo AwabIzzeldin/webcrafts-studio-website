@@ -17,7 +17,7 @@ export default function ProjectsPage() {
       subtitle: "Digital experiences that move people",
       description:
         "We design and build high-performing websites that look beautiful and feel intuitive. Each project is handcrafted for conversion, speed, and storytelling.",
-      image: "/images/project1-desktop.png",
+      image: "/images/webdev.png",
       link: "/services/web-development",
       bg: "from-[#0a0014] via-[#1a0033]/70 to-[#05000f]",
     },
@@ -27,7 +27,7 @@ export default function ProjectsPage() {
       subtitle: "Where your vision finds its form",
       description:
         "From logo design to full brand systems — we help you define a visual language that expresses your brand’s voice with clarity and emotion.",
-      image: "/images/project2-desktop.png",
+      image: "/images/webdev.png",
       link: "/services/branding",
       bg: "from-[#100022] via-[#1a0033]/70 to-[#05000f]",
     },
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
       subtitle: "Stories that capture attention",
       description:
         "We produce cinematic visuals, videos, and social content that transform brands into experiences. Scroll-stopping storytelling made for modern audiences.",
-      image: "/images/project3-desktop.png",
+      image: "/images/content.png",
       link: "/services/content",
       bg: "from-[#0a0014] via-[#26004f]/70 to-[#05000f]",
     },
@@ -105,7 +105,7 @@ export default function ProjectsPage() {
         <section
           key={s.id}
           id={`section-${s.id}`}
-          className={`relative h-screen flex flex-col md:flex-row items-center justify-center overflow-hidden bg-gradient-to-b ${s.bg}`}
+          className={`relative h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden bg-gradient-to-b ${s.bg}`}
         >
           {/* Background gradient & glow */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(244,124,97,0.08)_0%,transparent_70%)]" />
@@ -120,8 +120,8 @@ export default function ProjectsPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={`relative z-10 flex-1 max-w-lg px-8 md:px-16 ${
-              i % 2 === 0 ? "md:ml-12 md:text-left" : "md:mr-12 md:text-right"
+            className={`relative z-10 flex-1 max-w-lg px-8 lg:px-16 ${
+              i % 2 === 0 ? "lg:ml-12 lg:text-left" : "lg:mr-12 lg:text-right"
             }`}
           >
             <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-4">
@@ -143,11 +143,11 @@ export default function ProjectsPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             viewport={{ once: true }}
-            className={`relative z-10 flex-1 flex justify-center ${
-              i % 2 === 0 ? "md:justify-end" : "md:justify-start"
+            className={`relative z-10 flex-1 flex justify-center items-center ${
+              i % 2 === 0 ? "lg:justify-end" : "lg:justify-start"
             }`}
           >
-            <div className="relative w-[80%] md:w-[70%] aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
+            <div className="relative w-[90%] md:w-[80%] lg:w-[70%] aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
               <Image
                 src={s.image || "/images/placeholder.jpg"}
                 alt={`${s.title} showcase`}
@@ -169,7 +169,7 @@ export default function ProjectsPage() {
           transition={{ duration: 1 }}
           className="text-5xl md:text-7xl font-semibold mb-6"
         >
-          Start Your <span className="text-[#f47c61]">Creative Journey</span>
+          Ready to <span className="text-[#f47c61]">Build Your Brand?</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
