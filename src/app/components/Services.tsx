@@ -9,7 +9,7 @@ export default function BrandJourney() {
       subtitle: "Design Your Brand’s Personality",
       description:
         "We craft timeless logos, color systems, and brand guidelines that capture your essence — from moodboards to final mark.",
-      video: "/videos/identity.mp4",
+      video: "/videos/dentity.mp4",
       cta: "Start Branding",
       link: "/services/branding",
     },
@@ -18,7 +18,7 @@ export default function BrandJourney() {
       subtitle: "Bring Your Brand Online",
       description:
         "We design and develop a custom website that feels alive — optimized for speed, conversions, and seamless user experience. We even handle your domain setup and hosting.",
-      video: "/videos/website.mp4",
+      video: "/videos/ebsite.mp4",
       cta: "Build My Website",
       link: "/services/web-development",
     },
@@ -27,7 +27,7 @@ export default function BrandJourney() {
       subtitle: "Tell Your Story Everywhere",
       description:
         "Our creative team produces scroll-stopping visuals, videos, and social media content — perfect for Instagram, TikTok, and Reels. Your brand deserves a voice that stands out.",
-      video: "/videos/content.mp4",
+      video: "/videos/ontent.mp4",
       cta: "Create My Content",
       link: "/services/content",
     },
