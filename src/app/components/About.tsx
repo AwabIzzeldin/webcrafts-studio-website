@@ -1,5 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -29,6 +30,7 @@ export default function About() {
           digital products that move people and businesses forward.
         </p>
 
+      <Link href = "/about"> 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -38,6 +40,7 @@ export default function About() {
             Learn More →
           </button>
         </motion.div>
+        </Link>
       </motion.div>
 
       {/* Right Video Visual — hidden on mobile */}

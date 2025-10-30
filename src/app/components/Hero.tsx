@@ -56,7 +56,7 @@ export default function Hero() {
           transition={{ delay: 0.6, duration: 0.8 }}
           className="flex gap-6 mt-6"
         >
-  <Link href="/projects">
+  <Link href="/contact">
     <button className="bg-[#f47c61] hover:bg-[#ff9e80] text-black font-medium px-8 py-3 rounded-full transition-all">
       Start a Project
     </button>
