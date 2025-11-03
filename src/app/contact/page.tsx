@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cubicBezier } from "framer-motion";
 
 export default function ContactPage() {
   const [step, setStep] = useState(1);
@@ -23,12 +24,15 @@ export default function ContactPage() {
     alert("Thank you! We’ll get in touch soon.");
   };
 
-  const fade = {
-    initial: { opacity: 0, y: 40 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -40 },
-    transition: { duration: 0.6, ease: [0.42, 0, 0.58, 1] },
-  };
+const fade = {
+  initial: { opacity: 0, y: 10 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+  transition: {
+    duration: 0.5,
+    ease: cubicBezier(0.42, 0, 0.58, 1), // ✅ Type-safe and equivalent to "easeInOut"
+  },
+};
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#05000f] text-white px-6 md:px-12">
