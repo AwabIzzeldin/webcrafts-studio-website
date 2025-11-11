@@ -35,7 +35,7 @@ export default function BrandJourney() {
       title: "4. Launch & Growth",
       subtitle: "Go Live & Stay Ahead",
       description:
-        "We help you launch with impact — from SEO to ongoing updates, performance insights, and creative retainer plans for continuous growth.",
+        "We help you launch with impact.",
       video: "/videos/growth.mp4",
       cta: "Launch My Brand",
       link: "/contact",

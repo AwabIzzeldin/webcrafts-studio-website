@@ -19,7 +19,6 @@ export default function ProjectsPage() {
         "We design and build high-performing websites that look beautiful and feel intuitive. Each project is handcrafted for conversion, speed, and storytelling.",
       image: "/images/webdev.png",
       link: "/services/web-development",
-      bg: "from-[#0a0014] via-[#1a0033]/70 to-[#05000f]",
     },
     {
       id: 2,
@@ -27,9 +26,8 @@ export default function ProjectsPage() {
       subtitle: "Where your vision finds its form",
       description:
         "From logo design to full brand systems — we help you define a visual language that expresses your brand’s voice with clarity and emotion.",
-      image: "/images/webdev.png",
+      image: "/images/branding.png",
       link: "/services/branding",
-      bg: "from-[#100022] via-[#1a0033]/70 to-[#05000f]",
     },
     {
       id: 3,
@@ -39,19 +37,22 @@ export default function ProjectsPage() {
         "We produce cinematic visuals, videos, and social content that transform brands into experiences. Scroll-stopping storytelling made for modern audiences.",
       image: "/images/content.png",
       link: "/services/content",
-      bg: "from-[#0a0014] via-[#26004f]/70 to-[#05000f]",
     },
   ];
 
   return (
-    <main ref={ref} className="bg-black text-white">
+    <main
+      ref={ref}
+      className="relative text-white overflow-hidden bg-gradient-to-b from-[#0a0014] via-[#1a0033]/70 to-[#05000f]"
+    >
+      {/* Ambient Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(244,124,97,0.08)_0%,transparent_70%)] pointer-events-none" />
+
       {/* === HERO SECTION === */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-        {/* Background glow and gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0014] via-[#1a0033]/80 to-[#05000f]" />
+        {/* Soft Coral Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#f47c61]/10 blur-[200px] rounded-full" />
 
-        {/* Content */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -100,15 +101,13 @@ export default function ProjectsPage() {
         </motion.div>
       </section>
 
-      {/* === MAIN SECTIONS === */}
+      {/* === PROJECT SECTIONS === */}
       {sections.map((s, i) => (
         <section
           key={s.id}
           id={`section-${s.id}`}
-          className={`relative h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden bg-gradient-to-b ${s.bg}`}
+          className={`relative h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden`}
         >
-          {/* Background gradient & glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(244,124,97,0.08)_0%,transparent_70%)]" />
           <motion.div
             style={{ opacity: overlayOpacity }}
             className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"
@@ -137,7 +136,7 @@ export default function ProjectsPage() {
             </Link>
           </motion.div>
 
-          {/* Project Visual */}
+          {/* Visual Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -149,7 +148,7 @@ export default function ProjectsPage() {
           >
             <div className="relative w-[90%] md:w-[80%] lg:w-[70%] aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
               <Image
-                src={s.image || "/images/placeholder.jpg"}
+                src={s.image}
                 alt={`${s.title} showcase`}
                 fill
                 className="object-cover"
@@ -162,7 +161,7 @@ export default function ProjectsPage() {
       ))}
 
       {/* === OUTRO === */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center bg-[#05000f] px-6">
+      <section className="relative h-screen flex flex-col items-center justify-center text-center px-6">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -177,8 +176,8 @@ export default function ProjectsPage() {
           transition={{ delay: 0.2, duration: 1 }}
           className="text-gray-400 text-lg max-w-2xl"
         >
-          We design brands and build stories that connect — through pixels, sound, and movement.  
-          Let’s build something timeless together.
+          We design brands and build stories that connect — through pixels, sound, and
+          movement. Let’s build something timeless together.
         </motion.p>
         <Link
           href="/contact"
