@@ -30,7 +30,6 @@ As a full-stack front-end developer and designer, I handle all aspects — from 
 | Project / Client | Description / Role |
 |-----------------|-------------------|
 | Graphic Designer Portfolio | Built a bilingual portfolio site with motion UI and brand-aligned design |
-| [Your Other Client Work — add here] | Description of project and what was built |
 | … | … |
 
 > More projects will be added soon — each with full case study details.
