@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { cubicBezier } from "framer-motion";
+import { Variants } from "framer-motion";
 
 export default function ContactPage() {
   const [step, setStep] = useState(1);
