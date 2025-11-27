@@ -30,7 +30,7 @@ const fade = {
   exit: { opacity: 0, y: -10 },
   transition: {
     duration: 0.5,
-    ease: cubicBezier(0.42, 0, 0.58, 1), // ✅ Type-safe and equivalent to "easeInOut"
+    
   },
 };
 
