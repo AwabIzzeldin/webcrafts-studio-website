@@ -57,7 +57,7 @@ const fade = {
                 type="text"
                 value={form.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-                placeholder="e.g. Awab Izzeldin"
+                placeholder="e.g. John Doe"
                 className="w-full mt-4 px-5 py-4 rounded-xl bg-white/5 border border-white/10 text-white text-base sm:text-lg placeholder-gray-500 focus:outline-none focus:border-[#f47c61] transition-all"
               />
               <button
