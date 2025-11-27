@@ -1,191 +1,158 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const stagger = {
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
 
 export default function ProjectsPage() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 0.2]);
+  const projects = [
+    {
+      name: "Abubaker — Designer Portfolio",
+      role: "Website Design & Development",
+      desc: "A modern bilingual portfolio crafted to reflect the designer’s unique identity and visual direction.",
+      href: "https://abubaker-ruby.vercel.app/",
+      image: "/images/websites/abubaker.png",
+    },
+    {
+      name: "WebCrafts Studio — Agency Site",
+      role: "Website Design & Development",
+      desc: "The official WebCrafts Studio website. Minimal, dark, and identity-driven with subtle motion.",
+      href: "https://www.webcrafts-studio.org/",
+      image: "/images/websites/webcrafts.png",
+    },
+    {
+      name: "Empire Schools - Landing Page ",
+      role: "Website Design & Development",
+      desc: "A clean and modern demo landing page concept built to showcase a school’s programs, vision, and brand identity.",
+      href: "https://school-demo-six.vercel.app/",
+      image: "/images/websites/schooldemo.png",
+    },
+    {
+  name: "Almustafa Dental Clinic — Demo Website",
+  role: "Website Design & Development",
+  desc: "A modern clean demo website concept for a dental clinic, designed to present services, trust, and professionalism with a smooth user experience.",
+  href: "https://dentalclinic-almustafa.vercel.app/",
+  image: "/images/websites/dental.png", 
+},
 
-  const sections = [
-    {
-      id: 1,
-      title: "Website Design",
-      subtitle: "Digital experiences that move people",
-      description:
-        "We design and build high-performing websites that look beautiful and feel intuitive. Each project is handcrafted for conversion, speed, and storytelling.",
-      image: "/images/webdev.png",
-      link: "/services/web-development",
-    },
-    {
-      id: 2,
-      title: "Visual Identity Creation",
-      subtitle: "Where your vision finds its form",
-      description:
-        "From logo design to full brand systems — we help you define a visual language that expresses your brand’s voice with clarity and emotion.",
-      image: "/images/branding.png",
-      link: "/services/branding",
-    },
-    {
-      id: 3,
-      title: "Content Creation",
-      subtitle: "Stories that capture attention",
-      description:
-        "We produce cinematic visuals, videos, and social content that transform brands into experiences. Scroll-stopping storytelling made for modern audiences.",
-      image: "/images/content.png",
-      link: "/services/content",
-    },
   ];
 
   return (
-    <main
-      ref={ref}
-      className="relative text-white overflow-hidden bg-gradient-to-b from-[#0a0014] via-[#1a0033]/70 to-[#05000f]"
-    >
-      {/* Ambient Background Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(244,124,97,0.08)_0%,transparent_70%)] pointer-events-none" />
-
-      {/* === HERO SECTION === */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden">
-        {/* Soft Coral Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#f47c61]/10 blur-[200px] rounded-full" />
-
+    <main className="min-h-screen bg-[#0A0014] text-white">
+      <section className="mx-auto w-full max-w-6xl px-4 py-24 md:px-6 lg:px-0">
+        {/* HEADER */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 px-6 max-w-3xl"
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="space-y-4"
         >
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            Crafting{" "}
-            <span className="text-[#f47c61]">Digital Stories</span>
-            <br />
-            That Inspire Emotion
-          </h1>
-          <p className="text-gray-400 text-lg md:text-xl mt-6">
-            Every project is a collaboration — blending identity, design, and storytelling
-            to create digital experiences that resonate.
+          <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+            Projects
           </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="mt-10"
-          >
-            <Link
-              href="#section-1"
-              className="inline-block px-10 py-4 rounded-full bg-[#f47c61] text-black font-semibold hover:bg-[#ff9e80] transition-all text-lg"
-            >
-              View Our Work ↗
-            </Link>
-          </motion.div>
+          <h1 className="text-4xl font-semibold leading-[1.1] md:text-6xl">
+            Web Projects
+          </h1>
+
+          <p className="max-w-xl text-sm text-white/60 md:text-base leading-relaxed">
+            A curated selection of websites designed and developed with clarity,
+            identity, and modern experiences. Crafted to{" "}
+            <span className="text-white">feel</span> like the brand, not just
+            represent it.
+          </p>
         </motion.div>
 
-        {/* Scroll Cue */}
+        {/* GRID */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2, duration: 1 }}
-          className="absolute bottom-10 text-white/50 text-sm flex flex-col items-center gap-2"
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="mt-14 grid gap-6 md:grid-cols-2"
         >
-          <span>Scroll to explore</span>
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="h-6 w-[1px] bg-white/40"
-          />
-        </motion.div>
-      </section>
-
-      {/* === PROJECT SECTIONS === */}
-      {sections.map((s, i) => (
-        <section
-          key={s.id}
-          id={`section-${s.id}`}
-          className={`relative h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden`}
-        >
-          <motion.div
-            style={{ opacity: overlayOpacity }}
-            className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-transparent"
-          />
-
-          {/* Text Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className={`relative z-10 flex-1 max-w-lg px-8 lg:px-16 ${
-              i % 2 === 0 ? "lg:ml-12 lg:text-left" : "lg:mr-12 lg:text-right"
-            }`}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold leading-tight mb-4">
-              <span className="text-[#f47c61]">{s.title}</span>
-            </h2>
-            <h3 className="text-xl md:text-2xl text-white/80 mb-6">{s.subtitle}</h3>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">{s.description}</p>
-            <Link
-              href={s.link}
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-[#f47c61] text-black font-semibold hover:bg-[#ff9e80] transition-all"
+          {projects.map((p, i) => (
+            <motion.div
+              key={i}
+              variants={fadeUp}
+              className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md"
             >
-              Explore →
-            </Link>
-          </motion.div>
+              <Link href={p.href} target="_blank" rel="noopener noreferrer">
+                {/* IMAGE */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-3xl">
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    className="object-cover transition-transform duration-[900ms] group-hover:scale-[1.04]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                </div>
 
-          {/* Visual Section */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            viewport={{ once: true }}
-            className={`relative z-10 flex-1 flex justify-center items-center ${
-              i % 2 === 0 ? "lg:justify-end" : "lg:justify-start"
-            }`}
+                {/* TEXT */}
+                <div className="space-y-3 px-5 py-5">
+                  <p className="text-[11px] uppercase tracking-[0.25em] text-white/50">
+                    {p.role}
+                  </p>
+
+                  <h2 className="text-xl font-medium">{p.name}</h2>
+
+                  <p className="text-sm text-white/60 leading-relaxed">
+                    {p.desc}
+                  </p>
+
+                  <div className="pt-2 flex items-center justify-between">
+                    <span className="text-sm text-white/80 flex items-center gap-1">
+                      Visit website
+                      <span className="transition-all duration-300 group-hover:translate-x-1">
+                        ↗
+                      </span>
+                    </span>
+
+                    <span className="text-[11px] px-2 py-1 rounded-full border border-white/15 text-white/60">
+                      Live
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="show"
+          className="mt-16 border-t border-white/10 pt-8 text-white/60 flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+        >
+          <p className="text-sm">
+            Have a project in mind? Let’s build something memorable.
+          </p>
+
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-2 text-xs font-medium uppercase tracking-[0.18em] text-white/80 transition hover:bg-white hover:text-black hover:border-white"
           >
-            <div className="relative w-[90%] md:w-[80%] lg:w-[70%] aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
-              <Image
-                src={s.image}
-                alt={`${s.title} showcase`}
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#05000f]/70 via-transparent to-transparent" />
-            </div>
-          </motion.div>
-        </section>
-      ))}
-
-      {/* === OUTRO === */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center px-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-7xl font-semibold mb-6"
-        >
-          Ready to <span className="text-[#f47c61]">Build Your Brand?</span>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 1 }}
-          className="text-gray-400 text-lg max-w-2xl"
-        >
-          We design brands and build stories that connect — through pixels, sound, and
-          movement. Let’s build something timeless together.
-        </motion.p>
-        <Link
-          href="/contact"
-          className="mt-10 inline-block px-10 py-4 rounded-full bg-[#f47c61] text-black font-semibold hover:bg-[#ff9e80] transition-all"
-        >
-          Work With Us ↗
-        </Link>
-        <div className="absolute w-[400px] h-[400px] bg-[#f47c61]/20 blur-[200px] rounded-full -z-10" />
+            Let&apos;s work together
+          </Link>
+        </motion.div>
       </section>
     </main>
   );

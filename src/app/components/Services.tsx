@@ -43,8 +43,8 @@ export default function BrandJourney() {
   ];
 
   return (
-    // 👇 Hidden on mobile, visible from md breakpoint upwards
-    <section className="hidden md:block relative py-32 bg-[#05000f] text-white overflow-hidden">
+
+<section className="hidden md:block relative py-32 bg-[#05000f] text-white overflow-hidden">
       {/* Ambient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0014] via-[#1a0033]/80 to-[#05000f]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(244,124,97,0.08)_0%,transparent_70%)]" />
