@@ -53,7 +53,7 @@ export default function About() {
       >
         <div className="relative w-[85%] md:w-[80%] aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_60px_-20px_rgba(244,124,97,0.3)]">
           <video
-            src="/videos/about.mp4"
+            src="/videos/hero.mp4"
             autoPlay
             loop
             muted

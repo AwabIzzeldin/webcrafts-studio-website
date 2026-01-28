@@ -34,7 +34,7 @@ export default function CinematicFooter() {
             whileHover={{ scale: 1.05 }}
             className="bg-[#f47c61] hover:bg-[#ff9e80] text-black font-medium px-10 py-4 rounded-full transition-all text-lg"
           >
-            Start Your Journey ↗
+            Start Your Journey 
           </motion.button>
         </Link>
       </motion.div>
